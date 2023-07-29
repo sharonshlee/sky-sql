@@ -15,6 +15,13 @@ QUERY_FLIGHT_BY_DATE = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT
                        "AND flights.MONTH = :month " \
                        "AND flights.YEAR = :year"
 
+QUERY_FLIGHT_BY_AIRLINE = "SELECT flights.*, airlines.airline, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as " \
+                          "DELAY " \
+                          "FROM flights " \
+                          "JOIN airlines " \
+                          "ON flights.airline = airlines.id " \
+                          "WHERE airlines.airline = :airline"
+
 
 class FlightData:
     """
@@ -56,11 +63,20 @@ class FlightData:
     def get_flights_by_date(self, day, month, year):
         """
         Searches for flight details using flight DATE.
+        If the flight was found, returns a list of record.
         """
         params = {'day': day,
                   'month': month,
                   'year': year}
         return self._execute_query(QUERY_FLIGHT_BY_DATE, params)
+
+    def get_delayed_flights_by_airline(self, airline):
+        """
+        Searches for flight details using airline name.
+        If the flight was found, returns a list of record.
+        """
+        params = {'airline': airline}
+        return self._execute_query(QUERY_FLIGHT_BY_AIRLINE, params)
 
     def __del__(self):
         """
