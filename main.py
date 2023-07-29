@@ -3,7 +3,7 @@ from datetime import datetime
 import sqlalchemy
 
 SQLITE_URI = 'sqlite:///data/flights.sqlite3'
-DATA_LENGTH = 3
+IATA_LENGTH = 3
 
 
 def delayed_flights_by_airline(data_manager):
