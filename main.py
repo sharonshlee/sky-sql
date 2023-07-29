@@ -70,6 +70,11 @@ def flights_by_date(data_manager):
     print_results(results)
 
 
+def quit_flight(data_manager):
+    data_manager.close()
+    quit()
+
+
 def print_results(results):
     """
     Get a list of flight results (List of dictionary-like objects from SQLAachemy).
@@ -116,14 +121,15 @@ def show_menu_and_get_input():
             pass
         print("Try again...")
 
+
 """
 Function Dispatch Dictionary
 """
-FUNCTIONS = { 1: (flight_by_id, "Show flight by ID"),
-              2: (flights_by_date, "Show flights by date"),
-              3: (delayed_flights_by_airline, "Delayed flights by airline"),
-              4: (delayed_flights_by_airport, "Delayed flights by origin airport"),
-              5: (quit, "Exit")
+FUNCTIONS = {1: (flight_by_id, "Show flight by ID"),
+             2: (flights_by_date, "Show flights by date"),
+             3: (delayed_flights_by_airline, "Delayed flights by airline"),
+             4: (delayed_flights_by_airport, "Delayed flights by origin airport"),
+             5: (quit_flight, "Exit")
              }
 
 

@@ -22,6 +22,13 @@ QUERY_FLIGHT_BY_AIRLINE = "SELECT flights.*, airlines.airline, flights.ID as FLI
                           "ON flights.airline = airlines.id " \
                           "WHERE airlines.airline = :airline"
 
+QUERY_FLIGHT_BY_AIRPORT = "SELECT flights.*, flights.ID as FLIGHT_ID, flights.DEPARTURE_DELAY as " \
+                          "DELAY " \
+                          "FROM flights " \
+                          "JOIN airports " \
+                          "ON flights.origin_airport = airports.iata_code " \
+                          "WHERE flights.origin_airport = :airport_code"
+
 
 class FlightData:
     """
@@ -78,7 +85,15 @@ class FlightData:
         params = {'airline': airline}
         return self._execute_query(QUERY_FLIGHT_BY_AIRLINE, params)
 
-    def __del__(self):
+    def get_delayed_flights_by_airport(self, airport_code):
+        """
+        Searches for flight details using airport IATA code.
+        If the flight was found, returns a list of record.
+        """
+        params = {'airport_code': airport_code}
+        return self._execute_query(QUERY_FLIGHT_BY_AIRPORT, params)
+
+    def close(self):
         """
         Closes the connection to the databse when the object is about to be destroyed
         """
